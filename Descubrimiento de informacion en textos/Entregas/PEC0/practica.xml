@@ -2,7 +2,7 @@
 
 <!DOCTYPE TEI SYSTEM "tei_all.dtd">
 
-<TEI xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns="http://www.tei-c.org/ns/1.0">
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
 
    <teiHeader>
       <fileDesc>
@@ -42,6 +42,16 @@
                </titleStmt>
                <extent>16p. ; 8⁰.</extent>
                <publicationStmt>
+                  <distributor>
+                     <name>Oxford Text Archive</name>
+                     <address>
+                        <addrLine>Oxford University Computing Services</addrLine>
+                        <addrLine>13 Banbury Road</addrLine>
+                        <addrLine>Oxford</addrLine>
+                        <addrLine>OX2 6NN</addrLine>
+                     </address>
+                     <email>ota@oucs.ox.ac.uk</email>
+                  </distributor>
                   <pubPlace>[London?,</pubPlace>
                   <date>1730?]</date>
                </publicationStmt>
@@ -59,7 +69,7 @@
       TEI @ Oxford.
       </p>
          </projectDesc>
-         <editorialDecl num="4">
+         <editorialDecl>
             <p>This electronic text file was keyed from page images and partially proofread for accuracy. Character capture and encoding have been done following the guidelines of the ECCO Text Creation Partnership, which correspond roughly to the recommendations found in Level 4 of the TEI in Libraries Guidelines. Digital page images are linked to the text file.</p>
          </editorialDecl>
          <listPrefixDef>
@@ -97,7 +107,7 @@
             <p>I think I may be allow'd to ſpeak par<g ref="char:EOLhyphen"/>ticularly on this Subject, as being the Son
 <pb n="3" facs="tcp:0300901200:3"/>of a Father ſo much diſtinguiſh'd in Sur<g ref="char:EOLhyphen"/>gery, by a ſucceſsful Practice of Sixty Years, which made him worthy of the moſt eminent Employments, that a Man of his Profeſſion could aſpire to, and whoſe Writings are tranſlated into moſt of the Languages of <hi>Europe;</hi> who hav<g ref="char:EOLhyphen"/>ing found out the ſalutary Effects that <hi>Mercury</hi> produceth in the Human Body, ſpent three Quarter Parts of his Life in diſcovering the ſafeſt Manner of taking it ſucceſsfully, and without the Danger of any Accident, be it ever ſo ſmall.</p>
             <p>He has been ſo lucky in his Search, that he has performed with this Mineral a vaſt Number of Cures, moſt of them of a different Nature, which, in the Be<g ref="char:EOLhyphen"/>ginning, have even ſurpaſſed his Expecta<g ref="char:EOLhyphen"/>tion; and he has obſerv'd, that all theſe good Effects could be attained only by crude <hi>Mercury,</hi> being firſt very well cleanſed of all its terreſtial and arſenical Parts whereof it is loaded, coming from the Mine, ty'd by a Curb that hinders it from ſublimating, and mix'd only with gentle and ſuitable Purgatives, without any Preparation by Fire, which is always very dangerous, as he has judiciouſly ex<g ref="char:EOLhyphen"/>preſs'd it in his ſecond Volume.</p>
-            <pbb n="4" facs="tcp:0300901200:4"/>
+            <pb n="4" facs="tcp:0300901200:4"/>
             <p>He has had the moſt favourable Op<g ref="char:EOLhyphen"/>portunities to try it, having been, for a long Time, Surgeon Major of the Hoſ<g ref="char:EOLhyphen"/>pitals of the <hi>French</hi> King's Army in <hi>Italy,</hi> and afterwards firſt Surgeon to Madam Royal at <hi>Turin,</hi> during twenty-ſix Years, till that Princeſs died; where he has made, with the <hi>Mercury</hi> thus prepared, ſeveral Cures, which have been admired by all the Court; and where his Per<g ref="char:EOLhyphen"/>ſon, and what he did, will not ſoon be forgotten.</p>
             <p>He was ſufficiently ſatisfied that <hi>Mer<g ref="char:EOLhyphen"/>cury</hi> (whereof he alone has found the true Preparation) is a rare Gift of Pro<g ref="char:EOLhyphen"/>vidence, capable to obviate ſo many dif<g ref="char:EOLhyphen"/>ferent Diſtempers; ſince (in the Manner he gives it) it has the principal Quali<g ref="char:EOLhyphen"/>fications required for curing all the Diſ<g ref="char:EOLhyphen"/>orders occaſioned by the bad Conſtitution of the Blood, which are to evacuate ſu<g ref="char:EOLhyphen"/>perfluous and peccant Humours, to abſorbe the Sharpneſs of the Blood, and of the Humours, and to diſſolve the Thickneſs thereof. It tempers beſides the Ferments of the Stomach, when they are in a manner viciated, and puts them again in a Condi<g ref="char:EOLhyphen"/>tion to make a good and perfect Digeſtion, which is the Spring of Life and Health; and, on the contrary, when it is adulte<g ref="char:EOLhyphen"/>rated,
 <pb n="5" facs="tcp:0300901200:5"/>it is the firſt Cauſe of moſt Diſtem<g ref="char:EOLhyphen"/>pers that attack the Human Bodies.</p>
@@ -115,7 +125,7 @@
             <p>This Remedy ought not to be conſider'd ſeparately, neither as a ſingle Purgative, ſoft and gentle, nor ſingly, as a Mineral Liquid, and penetrating; but as a ſpeci<g ref="char:EOLhyphen"/>fick Remedy compounded of both, in a Manner which renders it almoſt univerſal, ſince it perfectly tempers the bad Quality of the Blood, and of the Lymph, and that it evacuates without Trouble or Al<g ref="char:EOLhyphen"/>teration, the ſuperfluous and peccant Hu<g ref="char:EOLhyphen"/>mours by the uſual Ways of Nature.</p>
             <p>It is certain, that the Roundneſs of <hi>Mercury,</hi> and its Activity, are the two main Qualities that we are to conſider in the Effect which it produces on the Maſs of Humours, ſince its Weight is only of ſome Conſequence, when it is united in a certain Volume, as it is given in the Twiſting of the Guts.</p>
             <p>When it comes then to diſſolve in the Stomach, the moſt volatile Part of <hi>Mer<g ref="char:EOLhyphen"/>cury</hi> that ſeparates by Means of the Fer<g ref="char:EOLhyphen"/>ments and the Heat of the Stomach, ſlips, with the Chylus, into the lacteal Veins, that are carried together, and by
-<pb n="9" facs="tcp:0300901200:9"/>the ſame Way into the Maſs of the Blood; there, by its Roundneſs, and its natural Motion, which is augmented by the Vi<g ref="char:EOLhyphen"/>bration of the Arteries, it circulates into the Blood and lymphatick Veſſels, di<g ref="char:EOLhyphen"/>viding it ſelf, as we conceive it, into in<g ref="char:EOLhyphen"/>finite ſmall Parts, it runs through all the capillary Veins: If it meets in its Way any Obſtacle in the Glands or Entrails, it ſtrikes and beats againſt it, it looſens Part of it, until at laſt, by often repeating the ſame Action, it makes it ſelf a free Paſ<g reff="char:EOLhyphen"/>ſage, and thereby procures to the Hu<g ref="char:EOLhyphen"/>mours a clear Way, which, to them, for a long Time, was become impracticable: By its continual and ſucceſſive Rubbings, it blunts the Points and Edges of the Acids that it meets with, it waſtes and divides them, it drags and hurries them out of the Body, partly by Tranſpiration, by Urine, and by Stools, by aſſiſtance of the proper Purgatives, fit to diſſolve and eva<g ref="char:EOLhyphen"/>cuate the ſlimy and ropy Matters, and all extraneous Bodies out of the Stomach and Inteſtines, apt to breed various Diſtempers, which, though ſlight and inſignificant in their Beginning, are ſometimes of a very dangerous Conſequence.</p>
+<pb n="9" facs="tcp:0300901200:9"/>the ſame Way into the Maſs of the Blood; there, by its Roundneſs, and its natural Motion, which is augmented by the Vi<g ref="char:EOLhyphen"/>bration of the Arteries, it circulates into the Blood and lymphatick Veſſels, di<g ref="char:EOLhyphen"/>viding it ſelf, as we conceive it, into in<g ref="char:EOLhyphen"/>finite ſmall Parts, it runs through all the capillary Veins: If it meets in its Way any Obſtacle in the Glands or Entrails, it ſtrikes and beats againſt it, it looſens Part of it, until at laſt, by often repeating the ſame Action, it makes it ſelf a free Paſ<g ref="char:EOLhyphen"/>ſage, and thereby procures to the Hu<g ref="char:EOLhyphen"/>mours a clear Way, which, to them, for a long Time, was become impracticable: By its continual and ſucceſſive Rubbings, it blunts the Points and Edges of the Acids that it meets with, it waſtes and divides them, it drags and hurries them out of the Body, partly by Tranſpiration, by Urine, and by Stools, by aſſiſtance of the proper Purgatives, fit to diſſolve and eva<g ref="char:EOLhyphen"/>cuate the ſlimy and ropy Matters, and all extraneous Bodies out of the Stomach and Inteſtines, apt to breed various Diſtempers, which, though ſlight and inſignificant in their Beginning, are ſometimes of a very dangerous Conſequence.</p>
             <p>Thus it is that I have often ſeen Per<g ref="char:EOLhyphen"/>ſons cured which were afflicted with in<g ref="char:EOLhyphen"/>veterate
 <pb n="10" facs="tcp:0300901200:10"/>Obſtructions in the Entrails of the lower Belly, and in the Meſenterick Glands, which were become ſchirrous, and which permitted the Paſſage only to the Part of the Chylus, the moſt wateriſh and leſs nouriſhing; and the Blood not receiving ſufficient Reparation, in pro<g ref="char:EOLhyphen"/>portion to the Loſſes it makes by the Tranſpiration, the Urine, and other Eva<g ref="char:EOLhyphen"/>cuations, there had enſued a total Lean<g ref="char:EOLhyphen"/>neſs in the Body, which evidently tended to a Conſumption.</p>
             <p>It is after the ſame manner of operating that this Medicine has often cured old Ulcers, Tetters over all the Body, hyſte<g ref="char:EOLhyphen"/>rical Convulſions, with ſeventeen Relapſes in a Day, old Stoppages of the Courſes, ſpilling of Milk after Delivery, which had obliged the Woman to keep her Bed for Eight Years, Looſeneſs and Diſenteries, Gripings of the Guts, Nephretick Cho<g ref="char:EOLhyphen"/>licks, with Loſs of Blood by Urine, Hypo<g ref="char:EOLhyphen"/>chondriack Diſeaſes three Years old, Gouts, Rheumatiſms all over the Body, and ve<g ref="char:EOLhyphen"/>nereal Diſtempers ſo old and obſtinate, as to have reſiſted all the other uſual Reme<g ref="char:EOLhyphen"/>dies: Theſe are Cures publickly known, which have been performed in <hi>France</hi> by the Help of my Pills, even with the Know<g ref="char:EOLhyphen"/>ledge of the Phyſicians of the Court.</p>
