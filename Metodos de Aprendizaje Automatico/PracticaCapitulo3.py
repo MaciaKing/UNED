@@ -11,13 +11,6 @@ import pdb
 def str_column_to_float(dataset, column):
 	for row in dataset:
 		row[column] = float(row[column])
- 
-
-# Calculate the Log probability distribution function for x
-def calculate_log_probability(x, mean, stdev):
-    exponent = -((x - mean) ** 2) / (2 * stdev ** 2)
-    log_prob = exponent - log(sqrt(2 * pi) * stdev)
-    return log_prob
 
 # Convert string column to float
 def str_column_to_float(dataset, column):
@@ -114,6 +107,12 @@ def summarize_by_class(dataset):
 def calculate_probability(x, mean, stdev):
 	exponent = exp(-((x-mean)**2 / (2 * stdev**2 )))
 	return (1 / (sqrt(2 * pi) * stdev)) * exponent
+
+# Calculate the Log probability distribution function for x
+def calculate_log_probability(x, mean, stdev):
+    exponent = -((x - mean) ** 2) / (2 * stdev ** 2)
+    log_prob = exponent - log(sqrt(2 * pi) * stdev)
+    return log_prob
  
 # Calculate the probabilities of predicting each class for a given row
 def calculate_class_probabilities(summaries, row):
@@ -123,7 +122,8 @@ def calculate_class_probabilities(summaries, row):
 		probabilities[class_value] = summaries[class_value][0][2]/float(total_rows)
 		for i in range(len(class_summaries)):
 			mean, stdev, _ = class_summaries[i]
-			probabilities[class_value] *= calculate_probability(row[i], mean, stdev)
+			#probabilities[class_value] *= calculate_probability(row[i], mean, stdev)
+			probabilities[class_value] *= calculate_log_probability(row[i], mean, stdev)
 	return probabilities
  
 # Predict the class for a given row
@@ -135,7 +135,27 @@ def predict(summaries, row):
 			best_prob = probability
 			best_label = class_value
 	return best_label
- 
+
+# Vamos a ver que valores de nuestro dataframe, pueden ser categoricos.
+# Haremos un recorrido por nuestro dataframe y veremos su descripcion.
+# Si vemos que en la salida del texto nos muestra un unique significa que solo estos elementos.
+def convert_columns_to_categorical_data(df):
+	print("**** Tipos de datos ANTES de convertir a categorical:\n")
+	print(df_total.dtypes)
+	for (columnName, columnData) in df.items():
+		description = df[columnName].describe()
+		if "unique" in description.index:
+			# Ahora convertiremos todos los datos categoricos de nuestro dataset a atributos nominales.
+			df[columnName] = df[columnName].astype('category')
+	print("**** Tipos de datos DESPUES de convertir a categorical:\n")
+	print(df_total.dtypes)
+
+#
+#
+def convert_categorical_to_int(df):
+	for col in df.select_dtypes(['category']).columns:
+		df[col] = df[col].cat.codes
+
 # Naive Bayes Algorithm
 def naive_bayes(train, test):
 	summarize = summarize_by_class(train)
@@ -145,25 +165,8 @@ def naive_bayes(train, test):
 		predictions.append(output)
 	return(predictions)
 
-
-# Make a prediction with Naive Bayes on Iris Dataset
-# dataset = fetch_ucirepo(id=53)
-# df_total = pd.concat([dataset.data.features, dataset.data.targets], axis=1)
-# dataset = df_total.values.tolist() 
-
-# for i in range(len(dataset[0])-1):
-# 	str_column_to_float(dataset, i)
-# # convert class column to integers
-# str_column_to_int(dataset, len(dataset[0])-1)
-# # fit model
-# model = summarize_by_class(dataset)
-# # define a new record
-# row = [5.7,2.9,4.2,1.3]
-# # predict the label
-# label = predict(model, row)
-# print('Data=%s, Predicted: %s' % (row, label))
-
 # Test Naive Bayes on Iris Dataset
+##### Iris Dataset #####
 seed(1)
 dataset = fetch_ucirepo(id=53)
 df_total = pd.concat([dataset.data.features, dataset.data.targets], axis=1)
@@ -178,20 +181,29 @@ scores = evaluate_algorithm(dataset, naive_bayes, n_folds)
 print('Scores: %s' % scores)
 print('Mean Accuracy: %.3f%%' % (sum(scores)/float(len(scores))))
 
-### Bank marketing
-# bank_marketing = fetch_ucirepo(id=222)
-# df_total = pd.concat([bank_marketing.data.features, bank_marketing.data.targets], axis=1)
-# dataset = df_total.values.tolist() 
+##### Bank marketing #####
+bank_marketing = fetch_ucirepo(id=222)
+df_total = pd.concat([bank_marketing.data.features, bank_marketing.data.targets], axis=1)
 
-# for i in range(len(dataset[0])-1):
-# 	pdb.set_trace()
-# 	str_column_to_float(dataset, i)
-# # convert class column to integers
-# str_column_to_int(dataset, len(dataset[0])-1)
-# # fit model
-# model = summarize_by_class(dataset)
-# # define a new record
-# row = [5.7,2.9,4.2,1.3]
-# # predict the label
-# label = predict(model, row)
-# print('Data=%s, Predicted: %s' % (row, label))
+# Eliminamos todas las filas que contengan valores nans
+df_total = df_total.dropna()
+
+# Convertimos las posibles variables a category.
+convert_columns_to_categorical_data(df_total)
+# Convertimos las category variables a numeros.
+convert_categorical_to_int(df_total)
+
+dataset = df_total.values.tolist() 
+
+for i in range(len(dataset[0])-1):
+	str_column_to_float(dataset, i)
+
+# convert class column to integers
+str_column_to_int(dataset, len(dataset[0])-1)
+# fit model
+model = summarize_by_class(dataset)
+# define a new record
+row = [5.7,2.9,4.2,1.3]
+# predict the label
+label = predict(model, row)
+print('Data=%s, Predicted: %s' % (row, label))
