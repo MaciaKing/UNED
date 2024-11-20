@@ -7,17 +7,17 @@ from ucimlrepo import fetch_ucirepo
 import pandas as pd
 import pdb
  
-# Convert string column to float
+# Convierte una columna de cadenas de texto (string) a números flotantes (float)
 def str_column_to_float(dataset, column):
 	for row in dataset:
 		row[column] = float(row[column])
 
-# Convert string column to float
+# Convertir columna de cadenas de texto a números flotantes
 def str_column_to_float(dataset, column):
 	for row in dataset:
 		row[column] = float(row[column])
  
-# Convert string column to integer
+# Convertir una columna de cadenas de texto a números enteros
 def str_column_to_int(dataset, column):
 	class_values = [row[column] for row in dataset]
 	unique = set(class_values)
@@ -28,7 +28,7 @@ def str_column_to_int(dataset, column):
 		row[column] = lookup[row[column]]
 	return lookup
  
-# Split a dataset into k folds
+# Dividir un conjunto de datos en k folds
 def cross_validation_split(dataset, n_folds):
 	dataset_split = list()
 	dataset_copy = list(dataset)
@@ -41,7 +41,7 @@ def cross_validation_split(dataset, n_folds):
 		dataset_split.append(fold)
 	return dataset_split
  
-# Calculate accuracy percentage
+# Calcular el porcentaje de precisión (accuracy)
 def accuracy_metric(actual, predicted):
 	correct = 0
 	for i in range(len(actual)):
@@ -49,7 +49,7 @@ def accuracy_metric(actual, predicted):
 			correct += 1
 	return correct / float(len(actual)) * 100.0
  
-# Evaluate an algorithm using a cross validation split
+# Evaluar un algoritmo utilizando validación cruzada (cross-validation)
 def evaluate_algorithm(dataset, algorithm, n_folds, *args):
 	folds = cross_validation_split(dataset, n_folds)
 	scores = list()
@@ -68,7 +68,7 @@ def evaluate_algorithm(dataset, algorithm, n_folds, *args):
 		scores.append(accuracy)
 	return scores
  
-# Split the dataset by class values, returns a dictionary
+# Dividir el conjunto de datos por valores de clase y devuelve un diccionario
 def separate_by_class(dataset):
 	separated = dict()
 	for i in range(len(dataset)):
@@ -79,23 +79,24 @@ def separate_by_class(dataset):
 		separated[class_value].append(vector)
 	return separated
  
-# Calculate the mean of a list of numbers
+# Calcular la media de una lista de números
 def mean(numbers):
 	return sum(numbers)/float(len(numbers))
  
-# Calculate the standard deviation of a list of numbers
+# Calcular la desviación estándar de una lista de números
 def stdev(numbers):
 	avg = mean(numbers)
 	variance = sum([(x-avg)**2 for x in numbers]) / float(len(numbers)-1)
 	return sqrt(variance)
  
-# Calculate the mean, stdev and count for each column in a dataset
+# Calcular la media, desviación estándar y 
+# cantidad de elementos para cada columna de un conjunto de dato
 def summarize_dataset(dataset):
 	summaries = [(mean(column), stdev(column), len(column)) for column in zip(*dataset)]
 	del(summaries[-1])
 	return summaries
  
-# Split dataset by class then calculate statistics for each row
+# Dividir el conjunto de datos por clase y luego calcular estadísticas para cada fila
 def summarize_by_class(dataset):
 	separated = separate_by_class(dataset)
 	summaries = dict()
@@ -103,18 +104,18 @@ def summarize_by_class(dataset):
 		summaries[class_value] = summarize_dataset(rows)
 	return summaries
  
-# Calculate the Gaussian probability distribution function for x
+# Calcular la función de distribución de probabilidad gaussiana para x
 def calculate_probability(x, mean, stdev):
 	exponent = exp(-((x-mean)**2 / (2 * stdev**2 )))
 	return (1 / (sqrt(2 * pi) * stdev)) * exponent
 
-# Calculate the Log probability distribution function for x
+# Calcular la función de distribución de probabilidad logarítmica para x
 def calculate_log_probability(x, mean, stdev):
     exponent = -((x - mean) ** 2) / (2 * stdev ** 2)
     log_prob = exponent - log(sqrt(2 * pi) * stdev)
     return log_prob
  
-# Calculate the probabilities of predicting each class for a given row
+# Calcular las probabilidades de predecir cada clase para una fila dada
 def calculate_class_probabilities(summaries, row):
 	total_rows = sum([summaries[label][0][2] for label in summaries])
 	probabilities = dict()
@@ -126,7 +127,7 @@ def calculate_class_probabilities(summaries, row):
 			probabilities[class_value] *= calculate_log_probability(row[i], mean, stdev)
 	return probabilities
  
-# Predict the class for a given row
+# Predecir la clase para una fila dada
 def predict(summaries, row):
 	probabilities = calculate_class_probabilities(summaries, row)
 	best_label, best_prob = None, -1
@@ -136,27 +137,30 @@ def predict(summaries, row):
 			best_label = class_value
 	return best_label
 
-# Vamos a ver que valores de nuestro dataframe, pueden ser categoricos.
-# Haremos un recorrido por nuestro dataframe y veremos su descripcion.
-# Si vemos que en la salida del texto nos muestra un unique significa que solo estos elementos.
+# Vamos a identificar qué columnas de nuestro DataFrame pueden ser categóricas.
+# Realizaremos un recorrido por el DataFrame para ver su descripción.
+# Si encontramos que la salida del método describe contiene "unique", significa que los valores son únicos y potencialmente categóricos.
 def convert_columns_to_categorical_data(df):
-	print("**** Tipos de datos ANTES de convertir a categorical:\n")
-	print(df_total.dtypes)
-	for (columnName, columnData) in df.items():
-		description = df[columnName].describe()
-		if "unique" in description.index:
-			# Ahora convertiremos todos los datos categoricos de nuestro dataset a atributos nominales.
-			df[columnName] = df[columnName].astype('category')
-	print("**** Tipos de datos DESPUES de convertir a categorical:\n")
-	print(df_total.dtypes)
+    print("**** Tipos de datos ANTES de convertir a categóricos:\n")
+    print(df.dtypes)
+    
+    for (nombre_columna, datos_columna) in df.items():
+        descripcion = df[nombre_columna].describe()    
+        # Si la columna tiene valores únicos, la convertimos a tipo categórico.
+        if "unique" in descripcion.index:
+            df[nombre_columna] = df[nombre_columna].astype('category')
 
-#
-#
+    print("**** Tipos de datos DESPUÉS de convertir a categóricos:\n")
+    print(df.dtypes)
+
+# Convertir columnas categóricas a valores enteros (códigos)
 def convert_categorical_to_int(df):
-	for col in df.select_dtypes(['category']).columns:
-		df[col] = df[col].cat.codes
+    # Recorremos todas las columnas que son de tipo 'category'
+    for col in df.select_dtypes(['category']).columns:
+        # Convertimos los valores categóricos a sus respectivos códigos enteros
+        df[col] = df[col].cat.codes
 
-# Naive Bayes Algorithm
+# Algoritmo de Naive Bayes
 def naive_bayes(train, test):
 	summarize = summarize_by_class(train)
 	predictions = list()
@@ -193,6 +197,11 @@ convert_columns_to_categorical_data(df_total)
 # Convertimos las category variables a numeros.
 convert_categorical_to_int(df_total)
 
+last_line = df_total.iloc[-1]
+# Elimina la última fila del DataFrame original
+
+df_total = df_total.iloc[:-1]
+
 dataset = df_total.values.tolist() 
 
 for i in range(len(dataset[0])-1):
@@ -202,8 +211,21 @@ for i in range(len(dataset[0])-1):
 str_column_to_int(dataset, len(dataset[0])-1)
 # fit model
 model = summarize_by_class(dataset)
+
+# evaluate algorithm
+n_folds = 5
+scores = evaluate_algorithm(dataset, naive_bayes, n_folds)
+print('Scores: %s' % scores)
+print('Mean Accuracy: %.3f%%' % (sum(scores)/float(len(scores))))
+
 # define a new record
-row = [5.7,2.9,4.2,1.3]
-# predict the label
-label = predict(model, row)
-print('Data=%s, Predicted: %s' % (row, label))
+last_line = last_line.values.tolist()
+last_line_2 = df_total.iloc[-4]
+last_line_2 = last_line_2.values.tolist()
+
+
+label = predict(model, last_line)
+print('Data=%s, Predicted: %s' % (last_line, label))
+
+label = predict(model, last_line_2)
+print('Data=%s, Predicted: %s' % (last_line_2, label))
