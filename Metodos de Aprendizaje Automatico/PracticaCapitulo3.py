@@ -120,11 +120,18 @@ def calculate_class_probabilities(summaries, row):
 	total_rows = sum([summaries[label][0][2] for label in summaries])
 	probabilities = dict()
 	for class_value, class_summaries in summaries.items():
-		probabilities[class_value] = summaries[class_value][0][2]/float(total_rows)
+		# Probabilidad de la clase (prior probability)
+		probabilities[class_value] = summaries[class_value][0][2] / float(total_rows)
 		for i in range(len(class_summaries)):
 			mean, stdev, _ = class_summaries[i]
-			#probabilities[class_value] *= calculate_probability(row[i], mean, stdev)
-			probabilities[class_value] *= calculate_log_probability(row[i], mean, stdev)
+			# Aplicar la corrección de Laplace en el cálculo de la probabilidad
+			# Si se usa la función logarítmica de probabilidad, la corrección de Laplace es: 
+			# P(x|y) = (P(x|y) + 1) / (N + 1) donde N es el número de clases posibles
+			probabilities[class_value] += calculate_log_probability(row[i], mean, stdev)
+    
+	# Aplicar suavizado de Laplace a la probabilidad final
+	for class_value in probabilities:
+		probabilities[class_value] = probabilities[class_value] + log(1 + 1 / len(summaries))  # Corrige con Laplace
 	return probabilities
  
 # Predecir la clase para una fila dada
@@ -169,9 +176,9 @@ def naive_bayes(train, test):
 		predictions.append(output)
 	return(predictions)
 
-# Test Naive Bayes on Iris Dataset
 ##### Iris Dataset #####
 seed(1)
+# Accedemos al dataset de Iris
 dataset = fetch_ucirepo(id=53)
 df_total = pd.concat([dataset.data.features, dataset.data.targets], axis=1)
 dataset = df_total.values.tolist()
@@ -179,7 +186,7 @@ for i in range(len(dataset[0])-1):
 	str_column_to_float(dataset, i)
 # convert class column to integers
 str_column_to_int(dataset, len(dataset[0])-1)
-# evaluate algorithm
+# Evaluamos el algoritmo
 n_folds = 5
 scores = evaluate_algorithm(dataset, naive_bayes, n_folds)
 print('Scores: %s' % scores)
@@ -197,9 +204,11 @@ convert_columns_to_categorical_data(df_total)
 # Convertimos las category variables a numeros.
 convert_categorical_to_int(df_total)
 
+# Cogemos un valor aleatorio del dataset, en este caso,
+# el ultimo valor y asi guardamos para hacer el ultimo test.
 last_line = df_total.iloc[-1]
-# Elimina la última fila del DataFrame original
 
+# Eliminamos la última fila del DataFrame original.
 df_total = df_total.iloc[:-1]
 
 dataset = df_total.values.tolist() 
@@ -207,25 +216,20 @@ dataset = df_total.values.tolist()
 for i in range(len(dataset[0])-1):
 	str_column_to_float(dataset, i)
 
-# convert class column to integers
+# Convertimos las variables categoricas a integers.
 str_column_to_int(dataset, len(dataset[0])-1)
+
 # fit model
 model = summarize_by_class(dataset)
 
-# evaluate algorithm
+# Evaluamos el algoritmo
 n_folds = 5
 scores = evaluate_algorithm(dataset, naive_bayes, n_folds)
 print('Scores: %s' % scores)
 print('Mean Accuracy: %.3f%%' % (sum(scores)/float(len(scores))))
 
-# define a new record
+# Testeamos nuestro modelo con la ultima linea
 last_line = last_line.values.tolist()
-last_line_2 = df_total.iloc[-4]
-last_line_2 = last_line_2.values.tolist()
-
 
 label = predict(model, last_line)
 print('Data=%s, Predicted: %s' % (last_line, label))
-
-label = predict(model, last_line_2)
-print('Data=%s, Predicted: %s' % (last_line_2, label))
