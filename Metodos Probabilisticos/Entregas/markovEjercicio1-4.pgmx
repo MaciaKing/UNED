@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ProbModelXML formatVersion="0.2.0">
+  <ProbNet type="BayesianNetwork">
+    <Comment showWhenOpeningNetwork="false"><![CDATA[<<Pulse dos veces para incluir/modificar comentario>>]]></Comment>
+    <DecisionCriteria>
+      <Criterion name="---" unit="---" />
+    </DecisionCriteria>
+    <Variables>
+      <Variable name="T" type="finiteStates" role="chance">
+        <Coordinates x="681" y="94" />
+        <States>
+          <State name="ausente" />
+          <State name="presente" />
+        </States>
+      </Variable>
+      <Variable name="U" type="finiteStates" role="chance">
+        <Coordinates x="758" y="95" />
+        <States>
+          <State name="ausente" />
+          <State name="presente" />
+        </States>
+      </Variable>
+      <Variable name="B" type="finiteStates" role="chance">
+        <Coordinates x="602" y="181" />
+        <States>
+          <State name="ausente" />
+          <State name="presente" />
+        </States>
+      </Variable>
+      <Variable name="F" type="finiteStates" role="chance">
+        <Coordinates x="687" y="180" />
+        <States>
+          <State name="ausente" />
+          <State name="presente" />
+        </States>
+      </Variable>
+      <Variable name="A" type="finiteStates" role="chance">
+        <Coordinates x="809" y="172" />
+        <States>
+          <State name="ausente" />
+          <State name="presente" />
+        </States>
+      </Variable>
+    </Variables>
+    <Links>
+      <Link directed="true">
+        <Variable name="T" />
+        <Variable name="B" />
+      </Link>
+      <Link directed="true">
+        <Variable name="T" />
+        <Variable name="F" />
+      </Link>
+      <Link directed="true">
+        <Variable name="U" />
+        <Variable name="F" />
+      </Link>
+      <Link directed="true">
+        <Variable name="U" />
+        <Variable name="A" />
+      </Link>
+    </Links>
+    <Potentials>
+      <Potential type="Table" role="conditionalProbability">
+        <Variables>
+          <Variable name="T" />
+        </Variables>
+        <Values>0.999 0.001</Values>
+      </Potential>
+      <Potential type="Table" role="conditionalProbability">
+        <Variables>
+          <Variable name="U" />
+        </Variables>
+        <Values>0.99 0.01</Values>
+      </Potential>
+      <Potential type="ICIModel" role="conditionalProbability">
+        <Variables>
+          <Variable name="B" />
+          <Variable name="T" />
+        </Variables>
+        <Model>OR / MAX</Model>
+        <Subpotentials>
+          <Potential type="Table">
+            <Variables>
+              <Variable name="B" />
+              <Variable name="T" />
+            </Variables>
+            <Values>0.9995 5.0E-4 0.6 0.4</Values>
+          </Potential>
+          <Potential type="Table">
+            <Variables>
+              <Variable name="B" />
+            </Variables>
+            <Values>1.0 0.0</Values>
+          </Potential>
+        </Subpotentials>
+      </Potential>
+      <Potential type="ICIModel" role="conditionalProbability">
+        <Variables>
+          <Variable name="F" />
+          <Variable name="T" />
+          <Variable name="U" />
+        </Variables>
+        <Model>OR / MAX</Model>
+        <Subpotentials>
+          <Potential type="Table">
+            <Variables>
+              <Variable name="F" />
+              <Variable name="T" />
+            </Variables>
+            <Values>1.0 0.0 0.0 1.0</Values>
+          </Potential>
+          <Potential type="Table">
+            <Variables>
+              <Variable name="F" />
+              <Variable name="U" />
+            </Variables>
+            <Values>1.0 0.0 0.0 1.0</Values>
+          </Potential>
+          <Potential type="Table">
+            <Variables>
+              <Variable name="F" />
+            </Variables>
+            <Values>1.0 0.0</Values>
+          </Potential>
+        </Subpotentials>
+      </Potential>
+      <Potential type="ICIModel" role="conditionalProbability">
+        <Variables>
+          <Variable name="A" />
+          <Variable name="U" />
+        </Variables>
+        <Model>OR / MAX</Model>
+        <Subpotentials>
+          <Potential type="Table">
+            <Variables>
+              <Variable name="A" />
+              <Variable name="U" />
+            </Variables>
+            <Values>0.987 0.013 0.42 0.58</Values>
+          </Potential>
+          <Potential type="Table">
+            <Variables>
+              <Variable name="A" />
+            </Variables>
+            <Values>1.0 0.0</Values>
+          </Potential>
+        </Subpotentials>
+      </Potential>
+    </Potentials>
+  </ProbNet>
+  <InferenceOptions>
+    <MulticriteriaOptions>
+      <SelectedAnalysisType>UNICRITERION</SelectedAnalysisType>
+      <Unicriterion>
+        <Scales>
+          <Scale Criterion="---" Value="1.0" />
+        </Scales>
+      </Unicriterion>
+      <CostEffectiveness>
+        <Scales>
+          <Scale Criterion="---" Value="1.0" />
+        </Scales>
+        <CE_Criteria>
+          <CE_Criterion Criterion="---" Value="Cost" />
+        </CE_Criteria>
+      </CostEffectiveness>
+    </MulticriteriaOptions>
+  </InferenceOptions>
+</ProbModelXML>
