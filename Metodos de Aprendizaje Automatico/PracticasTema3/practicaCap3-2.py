@@ -41,7 +41,8 @@ supportCrime = onehot_df['Crime'].mean()
 supportChildrens = onehot_df['Children\'s'].mean()
 
 
-#-----------------------------------------------
+#-----------------------------------------------------------------------------------
+#
 # 2. Calcular el soporte, confianza y lift de las siguientes reglas:  
 # Romance -> Drama; Action, Adventure -> Thriller; Crime, Action -> Thriller; 
 # Crime -> Action, Thriller; Crime -> Children's
@@ -97,3 +98,60 @@ print("\nCrime -> Children's")
 print("Soporte conjunto:", calculate_joint_support(['Crime', "Children's"], total_transactions))
 print("Confianza:", calculate_confidence(['Crime'], ["Children's"], total_transactions))
 print("Lift:", calculate_lift(['Crime'], ["Children's"], total_transactions))
+
+# 3. Discutid y justificad en un comentario del código qué opináis 
+# de los resultados de soporte, confianza y lift de estas reglas.
+# 
+# ** Romance -> Drama:
+#    Support: 0.058858501783590964
+#    Confianza: 0.4008097165991903
+#    Lift: 0.9298785425101216
+#         El Support es de 5.89% de las transacciones contienen tanto 
+#         Romance como Drama. Este valor sugiere que hay una relación moderada entre estos 
+#         dos géneros, ya que no es un valor extremadamente bajo, pero tampoco es muy alto. 
+#         La confianza lo que indica que el 40.08% de las transacciones con 
+#         Romance también incluyen Drama. Esto muestra que, si una película está clasificada 
+#         como Romance, hay una probabilidad considerable de que también sea clasificada como Drama.
+#         El lift nos indica que la relación entre Romance y Drama no es particularmente fuerte.
+#
+# ** Adventure -> Thriller:
+#    Support: 0.01248513674197384
+#    Confianza: 0.15555555555555556
+#    Lift: 1.0424081451969898
+#      El support sugiere que esta combinación es relativamente rara en el conjunto de datos. La confianza 
+#      es de 15.56% de las transacciones con Adventure también contienen Thriller. Aunque esta cifra 
+#      no es alta, muestra que hay una relación moderada entre ambos géneros. Sin embargo, el lift es de 
+#      1.0424, lo que indica que existe una ligera asociación positiva entre Adventure y Thriller.
+# 
+# ** Crime, Action -> Thriller:
+#    Support: 0.0023781212841854932
+#    Confianza: 0.17391304347826086
+#    Lift: 1.1654252554997402
+#       El support refleja que la combinación de estos tres géneros es bastante rara. La confianza es de 0.1739, 
+#       lo que indica que el 17.39% de las transacciones que contienen Crime y Action también incluyen Thriller. 
+#       Aunque no es una relación muy fuerte, existe una tendencia a que estos géneros aparezcan juntos. 
+#       El lift es de 1.1654, lo que sugiere una relación positiva entre Crime, Action y Thriller. A pesar de que la confianza no 
+#       es alta, el lift mayor a 1 indica que la combinación de estos géneros ocurre con más frecuencia de 
+#       lo que sería esperado si fueran independientes.
+#    
+# ** Crime -> Action, Thriller
+#    Soporte conjunto: 0.0023781212841854932
+#    Confianza: 0.03669724770642202
+#    Lift: 0.7348186981214504
+#       El support es del 0.24%. Este valor refleja que la combinación de estos tres géneros 
+#       es bastante rara. La confianza es de 0.1739, lo que indica que el 17.39% de las transacciones que contienen 
+#       Crime y Action también incluyen Thriller. Aunque no es una relación muy fuerte, existe una cierta tendencia 
+#       a que estos géneros aparezcan juntos. El lift es de 1.1654, lo que sugiere una relación positiva entre 
+#       Crime, Action y Thriller. A pesar de que la confianza no es alta, el lift mayor a 1 indica que la 
+#       combinación de estos géneros ocurre con más frecuencia de lo que sería esperado si fueran independientes.
+#
+# ** Crime -> Children's
+#    Support: 0.0
+#    Confianza: 0.0
+#    Lift: 0.0
+#       Este support es de 0.0, lo que indica que no hay transacciones que contengan tanto Crime 
+#       como Children's. La confianza también es 0, ya que no hay transacciones que contengan Crime y 
+#       Children's al mismo tiempo. Finalmente, el lift es también 0, deducimos que no hay relacion.
+#
+
+
