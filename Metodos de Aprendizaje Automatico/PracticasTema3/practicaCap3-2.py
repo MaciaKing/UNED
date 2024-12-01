@@ -2,6 +2,7 @@ import pandas as pd
 import itertools
 import time
 import pdb
+from math import comb
 import json
 from mlxtend.preprocessing import TransactionEncoder
 
@@ -191,6 +192,7 @@ print(json_example)
 # 6. Mediante la función "rule_metrics", generar un DataFrame con todas las reglas 
 # de tipo A -> B con rule, support, confidence y lift como columnas. 
 # ¿Cuánto tiempo ha tardado vuestro código en generarlas?
+# No llega a acabar el codigo ya que el computo computacional es muy elevado
 
 # Filtros mínimos
 MIN_SUPPORT = 0.01  # 1% de soporte mínimo
@@ -221,11 +223,8 @@ def generate_filtered_rules(onehot_df, min_support, min_confidence):
     return pd.DataFrame(rules)
 
 # Ejecutar generación de reglas con filtros
-filtered_rules_df = generate_filtered_rules(onehot_df, MIN_SUPPORT, MIN_CONFIDENCE)
+# filtered_rules_df = generate_filtered_rules(onehot_df, MIN_SUPPORT, MIN_CONFIDENCE)
 
-# Guardar el resultado en un archivo CSV
-filtered_rules_df.to_csv('filtered_rules.csv', index=False)
-print(f"Reglas filtradas generadas y guardadas en filtered_rules.csv")
 
 #
 # 7. Ordenar de mayor a menor por support, confidence, lift 
@@ -268,16 +267,57 @@ print(f"Reglas filtradas generadas y guardadas en filtered_rules.csv")
 # 9. Mediante la función "rule_metrics", generar un DataFrame con todas las 
 # reglas de tipo A,B -> C ó A -> B,C con rule, support, confidence y lift 
 # como columnas. ¿Cuánto tiempo ha tardado vuestro código en generarlas?
+#
+# Este me llega a tardar una media de 6 segundos en generar las reglas.
+
+
+def generate_AB_to_C_and_A_to_BC(onehot_df):
+    start_time = time.time()  # Registrar el inicio
+    rules = []
+    genres = list(onehot_df.columns)
+    
+    # 1. Reglas de tipo A, B -> C
+    for antecedents in itertools.combinations(genres, 2):  # Elegir 2 géneros como antecedentes
+        for consequent in set(genres) - set(antecedents):  # Elegir 1 género como consecuente
+            metrics = rule_metric(list(antecedents), [consequent], onehot_df)
+            rules.append(metrics)
+    
+    # 2. Reglas de tipo A -> B, C
+    for antecedent in genres:  # Elegir 1 género como antecedente
+        for consequents in itertools.combinations(set(genres) - {antecedent}, 2):  # Elegir 2 géneros como consecuentes
+            metrics = rule_metric([antecedent], list(consequents), onehot_df)
+            rules.append(metrics)
+    
+    end_time = time.time()  # Registrar el final
+    print(f"Tiempo total: {end_time - start_time:.2f} segundos")
+    
+    return pd.DataFrame(rules)
+
+# Generar las reglas y medir el tiempo
+rules_df = generate_AB_to_C_and_A_to_BC(onehot_df)
 
 
 # 10. Ordenar de mayor a menor por support, confidence, lift (por este orden)
 # y mostrar las 20 primeras reglas anteriores (junto con sus valores de support, 
 # confidence, lift) como comentario.
+sorted_rules_df = rules_df.sort_values(by=["support", "confidence", "lift"], ascending=False)
+print(sorted_rules_df.head(20))
 
 
 # 11. Calcular matemáticamente y de manera justificada cuantas reglas de 9 
 # elementos se pueden construir para este dataset.
+# 
+# Total reglas de 9 elementos = 47,112,780
 
+# Número de combinaciones para seleccionar 9 elementos de 19
+num_combinations_9 = comb(19, 9)
+
+# Número de formas de dividir esos 9 elementos en antecedentes y consecuentes
+num_divisions = (2**9) - 2  # Restamos los casos vacíos
+
+# Total de reglas
+total_rules_9 = num_combinations_9 * num_divisions
+print(f"Total de reglas de 9 elementos: {total_rules_9}")
 
 # 12. Considerando que tardaríais una proporción similar de tiempo que en las 
 # anteriores ¿cuánto tiempo tardaría vuestro código en generar todas estas reglas de 9 elementos?
