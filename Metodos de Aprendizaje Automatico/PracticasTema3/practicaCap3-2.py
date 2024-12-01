@@ -192,7 +192,8 @@ print(json_example)
 # 6. Mediante la función "rule_metrics", generar un DataFrame con todas las reglas 
 # de tipo A -> B con rule, support, confidence y lift como columnas. 
 # ¿Cuánto tiempo ha tardado vuestro código en generarlas?
-# No llega a acabar el codigo ya que el computo computacional es muy elevado
+#
+# El codigo no acabara nunca ya que tiene que calcular 274,877,906,944 reglas.
 
 # Filtros mínimos
 MIN_SUPPORT = 0.01  # 1% de soporte mínimo
@@ -231,6 +232,8 @@ def generate_filtered_rules(onehot_df, min_support, min_confidence):
 # (por este orden) y mostrar las 20 primeras reglas anteriores 
 # (junto con sus valores de support, confidence, lift) como comentario.
 #
+# sorted_rules_df = rules_df.sort_values(by=["support", "confidence", "lift"], ascending=False)
+# print(sorted_rules_df.head(20))
 
 
 # 8. Calcular matemáticamente y de manera justificada 
