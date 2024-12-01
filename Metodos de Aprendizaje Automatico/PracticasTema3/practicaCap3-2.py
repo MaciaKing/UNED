@@ -183,3 +183,9 @@ print(json_example)
 # 5. Calcular matemáticamente y de manera justificada cuantas reglas de tipo 
 # A -> B se pueden construir para este dataset.
 #
+# Total reglas = (2^(19)−1)⋅(2^(19)−1) = 524,287 ⋅ 524,287 = 274,877,906,944.
+
+
+# 6. Mediante la función "rule_metrics", generar un DataFrame con todas las reglas 
+# de tipo A -> B con rule, support, confidence y lift como columnas. 
+# ¿Cuánto tiempo ha tardado vuestro código en generarlas?
