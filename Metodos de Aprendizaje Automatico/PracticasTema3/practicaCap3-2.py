@@ -321,10 +321,30 @@ print(f"Total de reglas de 9 elementos: {total_rules_9}")
 
 # 12. Considerando que tardaríais una proporción similar de tiempo que en las 
 # anteriores ¿cuánto tiempo tardaría vuestro código en generar todas estas reglas de 9 elementos?
-
+#
+# Si para 5814 ha tardado 6 minutos
+#  5814 -- > 6m
+#  7,112,780 -- > x
+#
+#  x = (7,112,780 * 6m) / 5814 = 7340.33 m  --> 12233,88333 horas
+# No acabaria nunca
 
 # 13. Calcular matemáticamente y de manera justificada cuantas reglas de todo 
 # tipo que contengan desde 1 hasta 19 elementos (todas las reglas posibles) se pueden 
 # construir para este dataset. Siguiendo el enfoque anterior ¿cuánto tiempo tardaría 
 # vuestro código en generarlas?
 #
+# Calcular el total de reglas de tipo A -> B para 1 a 19 elementos
+# Para el primer caso = (19 sobre 1) ⋅ (2^1 - 2) = 0
+# Para el segundo caso = (19 sobre 2) ⋅ (2^2 - 2) = 342
+# Para el tercer caso = (19 sobre 3) ⋅ (2^3 - 2) = 0
+# ...
+# Para el ultimo caso = (19 sobre 19) ⋅ (2^19 - 2) = 524286
+#
+# Suma de todas las reglas = 0+ 342 + 5814 + 54264 + 348840 + 
+# 1684194 + 6348888 + 19166428 + 47112780 + 94403916 + 188711508 + 
+# 206533032+222232308 + 190120536 + 127338261 + 63515826 + 
+# 22427670 + 4980748 + 524286 = 1195509641
+
+total_rules_all = sum(comb(19, k) * (2**k - 2) for k in range(1, 20))
+print(f"Total de reglas de 1 a 19 elementos: {total_rules_all}")
