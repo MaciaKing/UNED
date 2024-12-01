@@ -1,5 +1,6 @@
 import pandas as pd
 import pdb
+import json
 from mlxtend.preprocessing import TransactionEncoder
 
 # Obtenemos los valores de cada columna
@@ -153,5 +154,32 @@ print("Lift:", calculate_lift(['Crime'], ["Children's"], total_transactions))
 #       como Children's. La confianza también es 0, ya que no hay transacciones que contengan Crime y 
 #       Children's al mismo tiempo. Finalmente, el lift es también 0, deducimos que no hay relacion.
 #
+#
+# 4. Ahora vamos a generalizar este asunto: crearemos una función genérica "rule_metrics" que admita dos 
+# listas de strings (la lista de genéros del  antecedente y la lista de géneros del consecuente de la de la regla) 
+# junto con el dataset onehot. La función debe devolver como resultado un diccionario con 4 elementos: una cadena de 
+# la forma  "A, B, ... -> C, D, ..." y tres floats que con sus resultados de support, confidence and lift. 
+# Ejemplo: rule_metrics(["Action","Adventure"],["Thriller"],onehot_dataset) devolvería algo como 
+# {"rule": "Action, Adventure -> Thriller", "support": 0.12, "confidence": 0.2, "lift": 1.3}  
+# (los valores son un ejemplo, no son los reales)
+#
+#
+print("\n\nEjercicio 4")
+def rule_metric(antecedent_list, consequent_list, onehot_df):
+    rule_string = ', '.join(antecedent_list)
+    rule_string = rule_string + " -> "
+    rule_string = rule_string + ', '.join(consequent_list)
+    support = calculate_joint_support(antecedent_list + consequent_list, len(onehot_df))
+    confidence = calculate_confidence(antecedent_list, consequent_list, len(onehot_df))
+    lift = calculate_lift(antecedent_list, consequent_list, total_transactions)
+    return {"rule": rule_string, "support": support, "confidence": confidence, "lift": lift}
 
 
+
+json_example = rule_metric(["Action","Adventure"],["Thriller"], onehot_df)
+print(json_example)
+
+#
+# 5. Calcular matemáticamente y de manera justificada cuantas reglas de tipo 
+# A -> B se pueden construir para este dataset.
+#
