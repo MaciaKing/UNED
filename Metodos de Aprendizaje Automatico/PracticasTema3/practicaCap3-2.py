@@ -1,4 +1,6 @@
 import pandas as pd
+import itertools
+import time
 import pdb
 import json
 from mlxtend.preprocessing import TransactionEncoder
@@ -189,3 +191,100 @@ print(json_example)
 # 6. Mediante la función "rule_metrics", generar un DataFrame con todas las reglas 
 # de tipo A -> B con rule, support, confidence y lift como columnas. 
 # ¿Cuánto tiempo ha tardado vuestro código en generarlas?
+
+# Filtros mínimos
+MIN_SUPPORT = 0.01  # 1% de soporte mínimo
+MIN_CONFIDENCE = 0.1  # 10% de confianza mínima
+
+# Función para generar reglas optimizadas
+def generate_filtered_rules(onehot_df, min_support, min_confidence):
+    start_time = time.time()
+    rules = []
+    genres = list(onehot_df.columns)
+    
+    # Iterar sobre todos los subconjuntos posibles para A y B
+    for i in range(1, len(genres)):  # Evitar conjuntos vacíos
+        antecedents = list(itertools.combinations(genres, i))
+        for antecedent in antecedents:
+            for j in range(1, len(genres) - len(antecedent) + 1):
+                consequents = list(itertools.combinations(set(genres) - set(antecedent), j))
+                for consequent in consequents:
+                    # Calcular métricas
+                    metrics = rule_metric(list(antecedent), list(consequent), onehot_df)
+                    
+                    # Aplicar filtros
+                    if metrics['support'] >= min_support and metrics['confidence'] >= min_confidence:
+                        rules.append(metrics)
+    
+    end_time = time.time()
+    print(f"Tiempo total: {end_time - start_time:.2f} segundos")
+    return pd.DataFrame(rules)
+
+# Ejecutar generación de reglas con filtros
+filtered_rules_df = generate_filtered_rules(onehot_df, MIN_SUPPORT, MIN_CONFIDENCE)
+
+# Guardar el resultado en un archivo CSV
+filtered_rules_df.to_csv('filtered_rules.csv', index=False)
+print(f"Reglas filtradas generadas y guardadas en filtered_rules.csv")
+
+#
+# 7. Ordenar de mayor a menor por support, confidence, lift 
+# (por este orden) y mostrar las 20 primeras reglas anteriores 
+# (junto con sus valores de support, confidence, lift) como comentario.
+#
+
+
+# 8. Calcular matemáticamente y de manera justificada 
+# cuantas reglas de tipo A,B -> C ó A -> B,C se pueden construir para este dataset.
+#
+# El dataset tiene n = 19 géneros.
+#    1) A,B --> C: Donde A,B son antecedentes, y C es un único consecuente.
+#    2) A --> B,C: Donde A es el antecedente, y B, C son consecuentes.
+#
+# 1) Calculo para las reglas A,B --> C
+#    Total combinaciones para los antecedentes
+#       (19 sobre 2) = (19 ⋅ 18)/2 = 171
+#
+#    Total combinaciones para los consequentes
+#        (17 sobre 1) = 17
+#
+#    Total reglas A,B --> C: (19 sobre 2) ⋅ (17 sobre 1) = 171 ⋅ 17 = 2907
+#
+#
+# 2) Calculo para las reglas A --> B,C
+#    Total combinaciones para A.
+#       (19 sobre 1) = 19
+# 
+#    Total combinaciones para los consequentes.
+#       (18 sobre 2) = (18 ⋅ 17)/2 = 153
+#
+#    Total reglas A --> B,C:
+#       (19 sobre 1) ⋅ (18 sobre 2) = 19 ⋅ 153 = 2907
+# 
+# Total reglas = 2907 + 2907 = 5814
+#
+
+
+# 9. Mediante la función "rule_metrics", generar un DataFrame con todas las 
+# reglas de tipo A,B -> C ó A -> B,C con rule, support, confidence y lift 
+# como columnas. ¿Cuánto tiempo ha tardado vuestro código en generarlas?
+
+
+# 10. Ordenar de mayor a menor por support, confidence, lift (por este orden)
+# y mostrar las 20 primeras reglas anteriores (junto con sus valores de support, 
+# confidence, lift) como comentario.
+
+
+# 11. Calcular matemáticamente y de manera justificada cuantas reglas de 9 
+# elementos se pueden construir para este dataset.
+
+
+# 12. Considerando que tardaríais una proporción similar de tiempo que en las 
+# anteriores ¿cuánto tiempo tardaría vuestro código en generar todas estas reglas de 9 elementos?
+
+
+# 13. Calcular matemáticamente y de manera justificada cuantas reglas de todo 
+# tipo que contengan desde 1 hasta 19 elementos (todas las reglas posibles) se pueden 
+# construir para este dataset. Siguiendo el enfoque anterior ¿cuánto tiempo tardaría 
+# vuestro código en generarlas?
+#
