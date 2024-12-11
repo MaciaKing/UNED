@@ -369,17 +369,18 @@ print(f"Total de reglas de 1 a 19 elementos: {total_rules_all}")
 # 4. Aplicar el algoritmo apriori con el soporte mínimo 10**(-5) y generar el conjunto de 
 # items frecuentes (no hace falta aplicar max_len ya que el conjunto de reglas posibles está 
 # bastante controlado en estas prácticas). Investigar bien el DataFrame devuelto y comentarlo.
-# frequent_itemsets = apriori(onehot_df, min_support=0.0005, use_colnames=True)
 frequent_itemsets = apriori(onehot_df, min_support=0.0005, use_colnames=True)
+
+# Los géneros individuales como Comedy tienen altos soportes (~30%), 
+# mientras que combinaciones más complejas como conjuntos de 5 o más géneros tienen
+# soportes bajos (~0.06%). Esto sugiere que los géneros principales son más comunes y 
+# que las combinaciones específicas son raras y representan nichos
 
 # 5. A partir de este conjunto de items, generar todas las reglas de asociación sin aplicar 
 # filtro alguno, simplemente aplicar "association_rules" sobre el DataFrame que devuelve el 
 # algoritmo anterior (utilizar el nombre de las columnas para que se vean bien los elementos que forman parte 
 # de la regla, no el índice de la columna) ¿Cuántas reglas se generan?
 rules = association_rules(frequent_itemsets, num_itemsets=len(onehot_df), metric = "confidence", min_threshold=0.0)
-
-# rules = association_rules(frequent_itemsets, metric = "antecedent support", min_threshold=0.002)
-# rules = association_rules(frequent_itemsets, metric = "lift", min_threshold = 1.0)
 
 # 6. Investigar bien cómo es el DataFrame que ha generado la función "association_rules", 
 # ver de nuevo el vídeo Basic Apriori results pruning, que explica por qué tiene este formato.
