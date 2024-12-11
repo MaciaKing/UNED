@@ -370,7 +370,7 @@ print(f"Total de reglas de 1 a 19 elementos: {total_rules_all}")
 # items frecuentes (no hace falta aplicar max_len ya que el conjunto de reglas posibles está 
 # bastante controlado en estas prácticas). Investigar bien el DataFrame devuelto y comentarlo.
 frequent_itemsets = apriori(onehot_df, min_support=0.0005, use_colnames=True)
-
+#
 # Los géneros individuales como Comedy tienen altos soportes (~30%), 
 # mientras que combinaciones más complejas como conjuntos de 5 o más géneros tienen
 # soportes bajos (~0.06%). Esto sugiere que los géneros principales son más comunes y 
@@ -381,6 +381,9 @@ frequent_itemsets = apriori(onehot_df, min_support=0.0005, use_colnames=True)
 # algoritmo anterior (utilizar el nombre de las columnas para que se vean bien los elementos que forman parte 
 # de la regla, no el índice de la columna) ¿Cuántas reglas se generan?
 rules = association_rules(frequent_itemsets, num_itemsets=len(onehot_df), metric = "confidence", min_threshold=0.0)
+print("Se generan: ",len(rules))
+pdb.set_trace()
+# Se generan 3902 reglas
 
 # 6. Investigar bien cómo es el DataFrame que ha generado la función "association_rules", 
 # ver de nuevo el vídeo Basic Apriori results pruning, que explica por qué tiene este formato.
@@ -405,28 +408,26 @@ print(new_df_sorted_rules.head(20)) # nuevas
 print("***")
 print(sorted_rules_df.head(20)) # antiguas
 
-# Podemos encontrar que el dataframe antiguo solo contiene reglas simples (EJ:
-#  Drama -> Action ), mientras que el nuevo tiene reglas mucho mas complejas como
-# por ejemplo Thriller -> Adventure, Action.
+# Podemos encontrar que el dataframe antiguo solo contiene reglas simples por ejemplo
+# Drama -> Action, mientras que el nuevo tiene reglas mucho mas complejas como
+#  Thriller -> Adventure, Action.
 #
-# En el conjunto antiguo, al ser las relaciones mas simples, su interpretacion 
-# tambien es mas simple.  En cambio en el nuevo conjunto permiten identificar reglas
-# mas concretas.
+# En el conjunto antiguo, al ser las relaciones más simples, su interpretación también 
+# es más sencilla. En cambio, en el nuevo conjunto se pueden identificar reglas más concretas.
 #
-# Sobre la columna de support, en el conjunto antiguo encontramos valores entre 0.3
-# - 0.6. Esto indica que cubren un mayor porcentaje de los datos. En cambio, en el conjunto
-# mas nuevo esta alrededor de 0.01. Esto es normal ya que las reglas son mas especificas que las antiguas.
+# Sobre la columna de support, en el conjunto antiguo encontramos valores entre 0.3 y 
+# 0.6. Esto indica que cubren un mayor porcentaje de los datos. En cambio, en el 
+# conjunto más nuevo está alrededor de 0.01. Esto es normal, ya que las reglas 
+# son más específicas que las antiguas.
 #
+# Sobre la columna lift, tenemos que en el nuevo dataframe los valores son más altos. 
+# Esto significa que las asociaciones son más fuertes entre los géneros. Esto es normal, 
+# ya que hemos tenido en cuenta reglas más grandes.
 #
-# Sobre la columna lift, tenemos que en el nuevo dataframe los valores son mas altos, 
-# Esto significa que las associaciones son mas fuertes entre los generos. Esto es normal, ya que 
-# hemos tenido en cuenta reeglas mas grandes.
-#
-#
-# Sobre la columna Confidence, encontramos que en el nuevo dataframe hay valores mas altos. Un ejemplo
-# es el de Animation, Musical -> Children's con confidence igual a 1. Esto nos indica que 
-# que los géneros Animation y Musical están presentes, Children's también estará.
-# En el antiguo dataset, no encontramos valores tan altos porque es mas generalista.
+# Sobre la columna Confidence, encontramos que en el nuevo dataframe hay valores más altos.
+# Un ejemplo es el de Animation, Musical → Children's, con una confianza igual a 1. Esto nos 
+# indica que, si los géneros Animation y Musical están presentes, Children's también lo estará.
+#  En el antiguo dataset, no encontramos valores tan altos porque es más generalista.
 #
 
 # 9. Generar y mostrar el DataFrame con la intersección de las 20 mejores 
