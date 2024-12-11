@@ -382,7 +382,6 @@ frequent_itemsets = apriori(onehot_df, min_support=0.0005, use_colnames=True)
 # de la regla, no el índice de la columna) ¿Cuántas reglas se generan?
 rules = association_rules(frequent_itemsets, num_itemsets=len(onehot_df), metric = "confidence", min_threshold=0.0)
 print("Se generan: ",len(rules))
-pdb.set_trace()
 # Se generan 3902 reglas
 
 # 6. Investigar bien cómo es el DataFrame que ha generado la función "association_rules", 
