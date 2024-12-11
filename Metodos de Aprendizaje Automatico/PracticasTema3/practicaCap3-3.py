@@ -306,7 +306,7 @@ rules_df = generate_AB_to_C_and_A_to_BC(onehot_df)
 # y mostrar las 20 primeras reglas anteriores (junto con sus valores de support, 
 # confidence, lift) como comentario.
 sorted_rules_df = rules_df.sort_values(by=["support", "confidence", "lift"], ascending=False)
-print(sorted_rules_df.head(20))
+# print(sorted_rules_df.head(20))
 
 
 # 11. Calcular matemáticamente y de manera justificada cuantas reglas de 9 
@@ -356,7 +356,7 @@ print(f"Total de reglas de 1 a 19 elementos: {total_rules_all}")
 
 
 
-# --------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------------------------------
 
 
 # 2. Generar un sólo DataFrame de reglas que contenga los tipos de reglas de 2 y 3 elementos
@@ -395,23 +395,68 @@ new_df = pd.DataFrame({
     'lift': rules['lift']
 })
 
-
 # 8. Generar las 20 mejores reglas de este conjunto de reglas y compararlo con 
 # las 20 mejores del conjunto de reglas que generamos en el punto 2 de estas 
 # prácticas. ¿En qué se diferencian? Justificad la respuesta.
+new_df_sorted_rules = new_df.sort_values(by=["support", "confidence", "lift"], ascending=False)
+sorted_rules_df = rules_df.sort_values(by=["support", "confidence", "lift"], ascending=False)
+print(new_df_sorted_rules.head(20)) # nuevas
+print("***")
+print(sorted_rules_df.head(20)) # antiguas
 
-pdb.set_trace()
+# Podemos encontrar que el dataframe antiguo solo contiene reglas simples (EJ:
+#  Drama -> Action ), mientras que el nuevo tiene reglas mucho mas complejas como
+# por ejemplo Thriller -> Adventure, Action.
+#
+# En el conjunto antiguo, al ser las relaciones mas simples, su interpretacion 
+# tambien es mas simple.  En cambio en el nuevo conjunto permiten identificar reglas
+# mas concretas.
+#
+# Sobre la columna de support, en el conjunto antiguo encontramos valores entre 0.3
+# - 0.6. Esto indica que cubren un mayor porcentaje de los datos. En cambio, en el conjunto
+# mas nuevo esta alrededor de 0.01. Esto es normal ya que las reglas son mas especificas que las antiguas.
+#
+#
+# Sobre la columna lift, tenemos que en el nuevo dataframe los valores son mas altos, 
+# Esto significa que las associaciones son mas fuertes entre los generos. Esto es normal, ya que 
+# hemos tenido en cuenta reeglas mas grandes.
+#
+#
+# Sobre la columna Confidence, encontramos que en el nuevo dataframe hay valores mas altos. Un ejemplo
+# es el de Animation, Musical -> Children's con confidence igual a 1. Esto nos indica que 
+# que los géneros Animation y Musical están presentes, Children's también estará.
+# En el antiguo dataset, no encontramos valores tan altos porque es mas generalista.
+#
 
 # 9. Generar y mostrar el DataFrame con la intersección de las 20 mejores 
 # reglas de entre los 2 datasets ¿Qué conclusiones sacamos? Justificad la respuesta
+common_rules = pd.merge(
+    new_df_sorted_rules,
+    sorted_rules_df,
+    how="inner",  # Realiza la intersección
+    on="rule"  # Cambia esta columna según corresponda
+)
+
+print("Intersección de las 20 mejores reglas entre ambos datasets:")
+print(common_rules.head(20))
 
 
-
-# 3. Comprobar el soporte mínimo de entre todas estas reglas y ponerlo en un comentario.
-# min_support = rules_df['support'].min()
-
-# # Imprimir el DataFrame y el soporte mínimo
-# print(rules_df)
-# print(f"El soporte mínimo entre todas las reglas es: {min_support}")
-
-# print(len(frequent_itemsets))
+# Podemos concluir que las reglas tienen una alta consistencia entre los dos 
+# datasets. Las métricas de soporte, confianza y lift son idénticas en
+# ambos datasets para todas las reglas, lo que refuerza esta observación.
+#
+#
+# Las métricas (support_x, confidence_x, lift_x) son iguales a sus contrapartes 
+# (support_y, confidence_y, lift_y) para todas las reglas, indicando que los patrones se 
+# mantienen sin cambios entre los datasets.
+#
+# Algunas reglas tienen un lift alto, lo que implica que las combinaciones 
+# de géneros son más frecuentes juntas de lo esperado al azar. Un ejemplo claro es la rule
+# Children's, Musical -> Animation tiene el lift más alto (32.42), 
+# indicando que estas combinaciones son extremadamente significativas.
+#
+#
+# Algunas reglas, como Drama, Romance -> Comedy, tienen lifts cercanos a 1 (por ejemplo, 0.37), 
+# lo que indica que estas combinaciones tienen una relación débil o casi inexistente. Ademas esta
+# regla tiene sentido ya que no conozco ninguna pelicula que sea dramatica, romace y comica a la vez.
+#
